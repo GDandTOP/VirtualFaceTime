@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="assets/icon.png" alt="PrinParty 로고" width="120" height="120" style="border-radius: 24px;" />
 
-# PrinParty
+
+# Virtual Face Time
 
 **랜덤 영상통화 매칭 앱**
 
