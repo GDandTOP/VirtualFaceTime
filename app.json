@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "prinparty-temp",
-    "slug": "prinparty-temp",
+    "name": "PrinParty",
+    "slug": "prinparty",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,21 +10,44 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#E8F8F5"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.younguk.prinparty",
+      "infoPlist": {
+        "NSCameraUsageDescription": "영상통화를 위해 카메라 접근이 필요합니다.",
+        "NSMicrophoneUsageDescription": "영상통화를 위해 마이크 접근이 필요합니다."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#E8F8F5"
       },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.INTERNET",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.INTERNET"
+      ],
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.younguk.prinparty"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-dev-client"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "19e2dadb-1295-4fdc-ab2c-13c6d60d043e"
+      }
+    },
+    "owner": "younguk"
   }
 }

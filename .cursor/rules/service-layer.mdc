@@ -1,0 +1,33 @@
+---
+description: 서비스 레이어 작성 패턴 - 매칭, Agora 등 비즈니스 로직 컨벤션
+globs: src/services/**/*.ts
+alwaysApply: false
+---
+
+# 서비스 레이어 패턴
+
+## 구조
+- 순수 함수 + export (클래스 미사용)
+- 타입/인터페이스는 서비스 파일 상단에 정의 후 export
+- 싱글턴 인스턴스는 모듈 수준 `let` 변수로 관리
+
+## 매칭 서비스 (matchingService.ts)
+- Firebase Realtime Database 경로: `/queue/{uid}`, `/matches/{matchId}`
+- `runTransaction`으로 원자적 매칭 (race condition 방지)
+- 리스너 함수는 `() => void` (unsubscribe) 반환
+
+```ts
+export function listenForX(uid: string, cb: (data: T) => void): () => void {
+  const listener = onValue(someRef, (snapshot) => { ... });
+  return () => off(someRef, 'value', listener);
+}
+```
+
+## Agora 서비스 (agoraService.ts)
+- `initAgora()`는 멱등 — 이미 초기화된 엔진이 있으면 기존 인스턴스 반환
+- `leaveChannel()`은 채널만 퇴장, `destroyEngine()`은 앱 종료 시에만 호출
+- 이벤트 핸들러는 `registerEventHandler` / `unregisterEventHandler` 쌍으로 관리
+
+## 에러 처리
+- 환경변수 누락은 즉시 `throw new Error`로 명확한 메시지 제공
+- 비동기 실패는 `console.error`로 로깅 후 적절히 전파

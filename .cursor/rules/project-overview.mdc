@@ -1,0 +1,46 @@
+---
+description: PrinParty 프로젝트 아키텍처, 네비게이션 패턴, 개발 명령어 등 핵심 컨벤션
+alwaysApply: true
+---
+
+# PrinParty 프로젝트 규칙
+
+## 기술 스택
+- Expo (React Native) + TypeScript
+- Firebase Realtime Database + Anonymous Auth
+- Agora.io (영상통화)
+- 상태관리: React useState (외부 라이브러리 미사용)
+
+## 네비게이션
+- `expo-router` 미사용. `AppNavigator.tsx`에서 `useState<Screen>`으로 화면 전환
+- Screen 타입: `'index' | 'waiting' | 'videoCall'`
+- 화면 흐름: `IndexScreen → WaitingScreen → VideoCallScreen → WaitingScreen(재대기)`
+- 새 화면 추가 시 `Screen` 유니온 타입에 추가하고 조건부 렌더링으로 연결
+
+## 개발 명령어
+```bash
+npm start              # Expo 개발 서버
+npm run ios            # iOS 시뮬레이터
+npm run android        # Android 에뮬레이터
+node node_modules/typescript/lib/tsc.js --noEmit  # 타입 검사
+```
+- `npx tsc` 대신 `node node_modules/typescript/lib/tsc.js --noEmit` 사용 (`@expo/cli` 심볼릭 링크 문제)
+
+## 프로젝트 구조
+```
+src/
+  screens/       # 화면 컴포넌트 (IndexScreen, WaitingScreen, VideoCallScreen)
+  services/      # 비즈니스 로직 (matchingService, agoraService)
+  config/        # 외부 서비스 설정 (firebase.ts)
+  constants/     # 상수 (colors.ts)
+  navigation/    # 화면 전환 (AppNavigator.tsx)
+```
+
+## 환경변수
+- `.env` 파일에 `EXPO_PUBLIC_` 접두사로 관리
+- Firebase 설정 6개 + Agora App ID
+- 새 환경변수 추가 시 `.env.example`에도 반영
+
+## 빌드 주의사항
+- `react-native-agora`는 Expo Go 미지원 → Expo Development Build 필요
+- iOS 권한은 `app.json`의 `infoPlist`, Android는 런타임 요청

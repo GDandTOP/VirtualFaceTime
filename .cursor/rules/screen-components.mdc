@@ -1,0 +1,45 @@
+---
+description: 화면 컴포넌트 작성 패턴 - Props 인터페이스, 스타일 구조, 애니메이션
+globs: src/screens/**/*.tsx
+alwaysApply: false
+---
+
+# 화면 컴포넌트 패턴
+
+## 컴포넌트 구조
+```tsx
+interface Props {
+  uid: string;
+  onSomeAction: (data: SomeType) => void;
+}
+
+export default function SomeScreen({ uid, onSomeAction }: Props) {
+  // 1. useState 선언
+  // 2. useRef 선언
+  // 3. useEffect
+  // 4. 핸들러 함수
+  // 5. JSX 반환
+}
+
+const styles = StyleSheet.create({ ... });
+```
+
+## 규칙
+- `export default function` 사용 (arrow function 미사용)
+- Props는 별도 `interface Props`로 정의
+- 화면 전환 콜백은 `onXxx` 네이밍 (예: `onStart`, `onCancel`, `onCallEnd`)
+- 스타일은 파일 하단에 `StyleSheet.create`로 정의 (인라인 스타일 최소화)
+- 애니메이션은 `Animated` API 사용 (`useNativeDriver: true` 필수)
+
+## cleanup 패턴
+- 리스너/타이머는 `useEffect` return에서 반드시 해제
+- 중복 호출 방지가 필요한 콜백은 `useRef` guard 사용
+
+```tsx
+const guardRef = useRef(false);
+const safeCallback = () => {
+  if (guardRef.current) return;
+  guardRef.current = true;
+  // ...
+};
+```
