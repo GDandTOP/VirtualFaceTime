@@ -48,4 +48,5 @@ yarn-error.*
 # Markdown files (루트 README.md 제외)
 *.md
 !README.md
-markdown/
+!markdown/
+!markdown/*.md
