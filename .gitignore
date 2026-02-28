@@ -40,3 +40,12 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# AI/Editor tool folders
+.cursor/
+.claude/
+
+# Markdown files (루트 README.md 제외)
+*.md
+!README.md
+markdown/
